@@ -1,5 +1,4 @@
 # subjs
---
 ## Description
 A tool to get javascript files from a list of URLS or subdomains. Analyzing javascript files can help you find undocumented endpoints, etc.
 

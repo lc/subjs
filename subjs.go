@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"crypto/tls"
+	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -14,9 +15,14 @@ import (
 )
 
 func main() {
-	fmt.Println(" -- subjs -- \n- by corben leo -")
+	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
+	var subjs = &http.Client{
+		Timeout: time.Second * 5,
+	}
+
 	re := regexp.MustCompile("^(?:https?:\\/\\/)?(?:www\\.)?([^\\/]+)")
 	var domains []string
+	out := make(map[string][]string)
 	m, _ := os.Stdin.Stat()
 	if (m.Mode() & os.ModeCharDevice) == 0 {
 		scanner := bufio.NewScanner(os.Stdin)
@@ -31,27 +37,29 @@ func main() {
 		fmt.Fprintf(os.Stderr, "\n-> Usage: cat urls.txt | subjs")
 	}
 	for _, domain := range domains {
-		http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-		client := &http.Client{Timeout: 3 * time.Second}
-		resp, err := client.Get(domain)
+		resp, err := subjs.Get(domain)
+
 		host := re.FindStringSubmatch(domain)
 		if err == nil {
 			doc, err := goquery.NewDocumentFromReader(resp.Body)
 			if err != nil {
 				fmt.Println("Error parsing response from: ", domain)
 			}
-			fmt.Println("====", domain, "====")
 			doc.Find("script").Each(func(index int, s *goquery.Selection) {
 				js, _ := s.Attr("src")
 				if js != "" {
 					if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") || strings.HasPrefix(js, "//") {
-						fmt.Println(js)
+						out[domain] = append(out[domain], js)
 					} else {
 						js := strings.Join([]string{host[1], js}, "")
-						fmt.Println(js)
+						out[domain] = append(out[domain], js)
 					}
 				}
 			})
 		}
+	}
+	bytes, err := json.MarshalIndent(out, "", "    ")
+	if err == nil {
+		fmt.Println(string(bytes))
 	}
 }

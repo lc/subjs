@@ -9,7 +9,7 @@ It's recommended to pair this with [https://github.com/GerbenJavado/LinkFinder](
 
 `cdl@doggos ~> cat urls.txt | subjs`
 
-[![asciicast](https://asciinema.org/a/225177.svg)](https://asciinema.org/a/225177)
+[![asciicast](https://asciinema.org/a/225809.svg)](https://asciinema.org/a/225809)
 
 ## Installation
 

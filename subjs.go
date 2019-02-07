@@ -30,11 +30,11 @@ func main() {
 			domains = append(domains, scanner.Text())
 		}
 		if err := scanner.Err(); err != nil {
-			fmt.Fprintf(os.Stderr, "\n-> Usage: cat urls.txt | subjs", err)
+			fmt.Fprintf(os.Stderr, "-> subjs - corben leo\n-> usage: cat urls.txt | subjs", err)
 			os.Exit(3)
 		}
 	} else {
-		fmt.Fprintf(os.Stderr, "\n-> Usage: cat urls.txt | subjs")
+		fmt.Fprintf(os.Stderr, "-> subjs - corben leo \n-> usage: cat urls.txt | subjs")
 	}
 	for _, domain := range domains {
 		resp, err := subjs.Get(domain)
@@ -58,8 +58,10 @@ func main() {
 			})
 		}
 	}
-	bytes, err := json.MarshalIndent(out, "", "    ")
-	if err == nil {
-		fmt.Println(string(bytes))
+	if len(out) != 0 {
+		bytes, err := json.MarshalIndent(out, "", "    ")
+		if err == nil {
+			fmt.Println(string(bytes))
+		}
 	}
 }

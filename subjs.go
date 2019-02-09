@@ -4,7 +4,9 @@ import (
 	"bufio"
 	"crypto/tls"
 	"encoding/json"
+	"flag"
 	"fmt"
+	"io/ioutil"
 	"net/http"
 	"os"
 	"regexp"
@@ -15,6 +17,10 @@ import (
 )
 
 func main() {
+	var outf string
+	flag.StringVar(&outf, "o", "", "Name of the output file")
+	flag.Parse()
+
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	var subjs = &http.Client{
 		Timeout: time.Second * 5,
@@ -62,6 +68,9 @@ func main() {
 		bytes, err := json.MarshalIndent(out, "", "    ")
 		if err == nil {
 			fmt.Println(string(bytes))
+		}
+		if outf != "" {
+			ioutil.WriteFile(outf, bytes, 0644)
 		}
 	}
 }

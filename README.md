@@ -14,7 +14,7 @@ It's recommended to pair this with [https://github.com/GerbenJavado/LinkFinder](
 
 ### Save output to a file:
 
-`subjs -o output.txt`
+COMING SOON -> `subjs -o output.txt`
 
 ## Installation
 

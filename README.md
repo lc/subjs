@@ -1,9 +1,9 @@
 # SUBJS
-`
-[+] Usage (all urls from file) 1º: $cat urls.txt | subj
-[+] Usage 2º: $cat urls.txt | go run subjs.go
-[+] Usage 3º: (single domain) | go run subjs.go -d https://example.com -o myfile
-`
+
+###### [+] Usage (all urls from file) 1º: $cat urls.txt | subj
+###### [+] Usage 2º: $cat urls.txt | go run subjs.go
+###### [+] Usage 3º: (single domain) | go run subjs.go -d https://example.com -o myfile
+
 
 ## Description
 A tool to get javascript files from a list of URLS or subdomains. Analyzing javascript files can help you find undocumented endpoints, etc.

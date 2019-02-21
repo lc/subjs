@@ -1,10 +1,4 @@
-# SUBJS
-
-###### [+] Usage (all urls from file) 1º: $cat urls.txt | subj
-###### [+] Usage 2º: $cat urls.txt | go run subjs.go
-###### [+] Usage 3º: (single domain) | go run subjs.go -d https://example.com -o myfile
-
-
+# subjs
 ## Description
 A tool to get javascript files from a list of URLS or subdomains. Analyzing javascript files can help you find undocumented endpoints, etc.
 
@@ -20,7 +14,7 @@ It's recommended to pair this with [https://github.com/GerbenJavado/LinkFinder](
 
 ### Save output to a file:
 
-`subjs -o output.txt`
+COMING SOON -> `subjs -o output.txt`
 
 ## Installation
 

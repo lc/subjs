@@ -7,7 +7,7 @@ It's recommended to pair this with [https://github.com/GerbenJavado/LinkFinder](
 
 ## Usage:
 
-`cdl@doggos ~> cat urls.txt | subjs`
+`cdl@doggos ~> cat urls.txt | subjs -json`
 
 [![asciicast](https://asciinema.org/a/234238.svg)](https://asciinema.org/a/234238)
 

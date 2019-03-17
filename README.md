@@ -11,11 +11,6 @@ It's recommended to pair this with [https://github.com/GerbenJavado/LinkFinder](
 
 [![asciicast](https://asciinema.org/a/225809.svg)](https://asciinema.org/a/225809)
 
-
-### Save output to a file:
-
-COMING SOON -> `subjs -o output.txt`
-
 ## Installation
 
 ### Install Command and Download Source With Go Get

@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"net/http"
 	"net/url"
@@ -18,8 +17,8 @@ import (
 )
 
 func main() {
-	var outf string
-	flag.StringVar(&outf, "o", "", "Name of the output file")
+	var oJson bool
+	flag.BoolVar(&oJson, "json", false, "Format output as json")
 	flag.Parse()
 
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
@@ -29,6 +28,7 @@ func main() {
 
 	var domains []string
 	out := make(map[string][]string)
+	var files []string
 	m, _ := os.Stdin.Stat()
 	if (m.Mode() & os.ModeCharDevice) == 0 {
 		scanner := bufio.NewScanner(os.Stdin)
@@ -56,26 +56,37 @@ func main() {
 			js, _ := s.Attr("src")
 			if js != "" {
 				if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") || strings.HasPrefix(js, "//") {
-					out[domain] = append(out[domain], js)
+					Output(out, &files, domain, js, oJson)
 				} else {
 					u, err := url.Parse(domain)
 					if err != nil {
 						log.Fatalf("Error parsing domain: %v", err)
 					}
 					js := fmt.Sprintf("%s://%s/%s", u.Scheme, u.Host, js)
-					out[domain] = append(out[domain], js)
+					Output(out, &files, domain, js, oJson)
 				}
 			}
 		})
 
 	}
-	if len(out) != 0 {
-		bytes, err := json.MarshalIndent(out, "", "    ")
-		if err == nil {
+	if len(out) != 0 || len(files) != 0 {
+		if oJson {
+			bytes, err := json.MarshalIndent(out, "", "    ")
+			if err != nil {
+				log.Fatalf("Error JSON Marshalling data: %v", err)
+			}
 			fmt.Println(string(bytes))
+		} else {
+			for _, file := range files {
+				fmt.Println(file)
+			}
 		}
-		if outf != "" {
-			ioutil.WriteFile(outf, bytes, 0644)
-		}
+	}
+}
+func Output(out map[string][]string, files *[]string, domain string, js string, isJson bool) {
+	if isJson {
+		out[domain] = append(out[domain], js)
+	} else {
+		*files = append(*files, js)
 	}
 }

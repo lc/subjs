@@ -7,9 +7,10 @@ import (
 	"flag"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
+	"net/url"
 	"os"
-	"regexp"
 	"strings"
 	"time"
 
@@ -23,10 +24,9 @@ func main() {
 
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	var subjs = &http.Client{
-		Timeout: time.Second * 5,
+		Timeout: time.Second * 20,
 	}
 
-	re := regexp.MustCompile("^(?:https?:\\/\\/)?(?:www\\.)?([^\\/]+)")
 	var domains []string
 	out := make(map[string][]string)
 	m, _ := os.Stdin.Stat()
@@ -45,24 +45,29 @@ func main() {
 	for _, domain := range domains {
 		resp, err := subjs.Get(domain)
 
-		host := re.FindStringSubmatch(domain)
-		if err == nil {
-			doc, err := goquery.NewDocumentFromReader(resp.Body)
-			if err != nil {
-				fmt.Println("Error parsing response from: ", domain)
-			}
-			doc.Find("script").Each(func(index int, s *goquery.Selection) {
-				js, _ := s.Attr("src")
-				if js != "" {
-					if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") || strings.HasPrefix(js, "//") {
-						out[domain] = append(out[domain], js)
-					} else {
-						js := strings.Join([]string{host[1], js}, "")
-						out[domain] = append(out[domain], js)
-					}
-				}
-			})
+		if err != nil {
+			log.Fatalf("Error making HTTP request: %v", err)
 		}
+		doc, err := goquery.NewDocumentFromReader(resp.Body)
+		if err != nil {
+			fmt.Println("Error parsing response from: ", domain)
+		}
+		doc.Find("script").Each(func(index int, s *goquery.Selection) {
+			js, _ := s.Attr("src")
+			if js != "" {
+				if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") || strings.HasPrefix(js, "//") {
+					out[domain] = append(out[domain], js)
+				} else {
+					u, err := url.Parse(domain)
+					if err != nil {
+						log.Fatalf("Error parsing domain: %v", err)
+					}
+					js := fmt.Sprintf("%s://%s/%s", u.Scheme, u.Host, js)
+					out[domain] = append(out[domain], js)
+				}
+			}
+		})
+
 	}
 	if len(out) != 0 {
 		bytes, err := json.MarshalIndent(out, "", "    ")

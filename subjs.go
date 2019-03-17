@@ -36,7 +36,7 @@ func main() {
 			domains = append(domains, scanner.Text())
 		}
 		if err := scanner.Err(); err != nil {
-			fmt.Fprintf(os.Stderr, "-> subjs - corben leo\n-> usage: cat urls.txt | subjs", err)
+			fmt.Fprintf(os.Stderr, "-> subjs - corben leo\n-> usage: cat urls.txt | subjs\n\nError: %v", err)
 			os.Exit(3)
 		}
 	} else {

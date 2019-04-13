@@ -15,16 +15,16 @@ It's recommended to pair this with [https://github.com/GerbenJavado/LinkFinder](
 
 ### Install Command and Download Source With Go Get
 
-`subjs` command will be installed to ```$GOPATH/bin``` and the source code (from `https://github.com/C0RB3N/subjs`) will be found in `$GOPATH/src/github.com/C0RB3N/subjs` with:
+`subjs` command will be installed to ```$GOPATH/bin``` and the source code (from `https://github.com/lc/subjs`) will be found in `$GOPATH/src/github.com/lc/subjs` with:
 
 ```bash
-~ ❯ go get -u github.com/C0RB3N/subjs
+~ ❯ go get -u github.com/lc/subjs
 ```
 
 ### Install from Github Source
 
 ```
-~ ❯ git clone https://github.com/C0RB3N/subjs
+~ ❯ git clone https://github.com/lc/subjs
 ~ ❯ cd subjs
 ~ ❯ chmod +x install.sh && ./install.sh
 ```

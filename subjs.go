@@ -53,21 +53,24 @@ func main() {
 			fmt.Println("Error parsing response from: ", domain)
 		}
 		doc.Find("script").Each(func(index int, s *goquery.Selection) {
+			u, err := url.Parse(domain)
+			if err != nil {
+				log.Fatalf("error parsing url: %v", err)
+			}
 			js, _ := s.Attr("src")
 			if js != "" {
-				if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") || strings.HasPrefix(js, "//") {
+				if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") {
+					Output(out, &files, domain, js, oJson)
+				}
+				if strings.HasPrefix(js, "//") {
+					js := fmt.Sprintf("%s%s", u.Scheme, js)
 					Output(out, &files, domain, js, oJson)
 				} else {
-					u, err := url.Parse(domain)
-					if err != nil {
-						log.Fatalf("Error parsing domain: %v", err)
-					}
 					js := fmt.Sprintf("%s://%s/%s", u.Scheme, u.Host, js)
 					Output(out, &files, domain, js, oJson)
 				}
 			}
 		})
-
 	}
 	if len(out) != 0 || len(files) != 0 {
 		if oJson {

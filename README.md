@@ -11,6 +11,15 @@ It's recommended to pair this with [https://github.com/GerbenJavado/LinkFinder](
 
 [![asciicast](https://asciinema.org/a/234238.svg)](https://asciinema.org/a/234238)
 
+### Flags:
+```
+  -i string
+    	input file containg urls
+  -json
+    	output in json format
+  -wayback
+    	retrieve javascript files from the wayback machine
+```
 ## Installation
 
 ### Install Command and Download Source With Go Get

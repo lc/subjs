@@ -92,11 +92,11 @@ func getScripts(domain string) []string {
 	if err != nil {
 		fmt.Println("Error parsing response from: ", domain)
 	}
+	u, err := url.Parse(domain)
+	if err != nil {
+		log.Fatalf("error parsing url: %v", err)
+	}
 	doc.Find("script").Each(func(index int, s *goquery.Selection) {
-		u, err := url.Parse(domain)
-		if err != nil {
-			log.Fatalf("error parsing url: %v", err)
-		}
 		js, _ := s.Attr("src")
 		if js != "" {
 			if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") {
@@ -109,6 +109,24 @@ func getScripts(domain string) []string {
 				found = append(found, js)
 			}
 		}
+	})
+	doc.Find("div").Each(func(index int, s *goquery.Selection) {
+		js, _ := s.Attr("data-script-src")
+		if js != "" {
+			if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") {
+				found = append(found, js)
+			} else if strings.HasPrefix(js, "//") {
+				js := fmt.Sprintf("%s:%s", u.Scheme, js)
+				found = append(found, js)
+			} else if strings.HasPrefix(js, "/") {
+				js := fmt.Sprintf("%s://%s%s", u.Scheme, u.Host, js)
+				found = append(found, js)
+			} else {
+				js := fmt.Sprintf("%s://%s/%s", u.Scheme, u.Host, js)
+				found = append(found, js)
+			}
+		}
+
 	})
 	return found
 }

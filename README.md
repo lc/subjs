@@ -1,41 +1,51 @@
 # subjs
-## Description
-A tool to get javascript files from a list of URLS or subdomains. Analyzing javascript files can help you find undocumented endpoints, etc.
+[![License](https://img.shields.io/badge/license-MIT-_red.svg)](https://opensource.org/licenses/MIT)
+[![Go ReportCard](https://goreportcard.com/badge/github.com/lc/gau)](https://goreportcard.com/report/github.com/lc/subjs)
 
-It's recommended to pair this with [https://github.com/GerbenJavado/LinkFinder](https://github.com/GerbenJavado/LinkFinder)
+subjs fetches javascript files from a list of URLS or subdomains. Analyzing javascript files can help you find undocumented endpoints, secrets, and more.
 
+It's recommended to pair this with [gau](https://github.com/lc/gau) and then [https://github.com/GerbenJavado/LinkFinder](https://github.com/GerbenJavado/LinkFinder)
+
+# Resources
+- [Usage](#usage)
+- [Installation](#installation)
 
 ## Usage:
-
-`cdl@doggos ~> cat urls.txt | subjs -json`
-
-[![asciicast](https://asciinema.org/a/234238.svg)](https://asciinema.org/a/234238)
-
-### Flags:
+Examples:
+```bash
+$ cat urls.txt | subjs 
+$ subjs -i urls.txt
+$ cat hosts.txt | gau | subjs
 ```
-  -i string
-    	input file containg urls
-  -json
-    	output in json format
-  -wayback
-    	retrieve javascript files from the wayback machine
-```
-## Installation
 
-### Install Command and Download Source With Go Get
-
-`subjs` command will be installed to ```$GOPATH/bin``` and the source code (from `https://github.com/lc/subjs`) will be found in `$GOPATH/src/github.com/lc/subjs` with:
+To display the help for the tool use the `-h` flag:
 
 ```bash
-~ ❯ go get -u github.com/lc/subjs
+$ subjs -h
 ```
 
-### Install from Github Source
+| Flag | Description | Example |
+|------|-------------|---------|
+| `-c` | Number of concurrent workers | `subjs -c 40` |
+| `-i` | Input file containing URLS | `subjs -i urls.txt` |
+| `-t` | Timeout (in seconds) for http client (default 15) | `subjs -t 20` |
+| `-ua` | User-Agent to send in requests | `subjs -ua "Chrome..."` |
+| `-version` | Show version number | `subjs -version"` |
+
+
+## Installation
+### From Source:
 
 ```
-~ ❯ git clone https://github.com/lc/subjs
-~ ❯ cd subjs
-~ ❯ chmod +x install.sh && ./install.sh
+$ GO111MODULE=on go get -u -v github.com/lc/subjs
+```
+
+### From Binary
+You can download the pre-built [binaries](https://github.com/lc/subjs/releases/) from the releases page and then move them into your $PATH.
+
+```
+$ tar xvf subjs-linux-amd64.tar
+$ mv subjs-linux-amd64 /usr/bin/subjs
 ```
 
 ## Useful?

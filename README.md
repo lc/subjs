@@ -44,8 +44,8 @@ $ GO111MODULE=on go get -u -v github.com/lc/subjs
 You can download the pre-built [binaries](https://github.com/lc/subjs/releases/) from the releases page and then move them into your $PATH.
 
 ```
-$ tar xvf subjs-linux-amd64.tar
-$ mv subjs-linux-amd64 /usr/bin/subjs
+$ tar xvf subjs_1.0.0_linux_amd64.tar.gz
+$ mv subjs /usr/bin/subjs
 ```
 
 ## Useful?

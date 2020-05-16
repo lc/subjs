@@ -14,7 +14,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-const version = `1.0.0`
+const version = `1.0.1`
 
 type SubJS struct {
 	client *http.Client
@@ -41,6 +41,7 @@ func (s *SubJS) Run() error {
 		if err != nil {
 			return fmt.Errorf("Could not open input file: %s", err)
 		}
+		defer input.Close()
 	}
 
 	// init channels
@@ -60,10 +61,10 @@ func (s *SubJS) Run() error {
 	var out sync.WaitGroup
 	out.Add(1)
 	go func() {
-		defer out.Done()
 		for result := range results {
 			fmt.Println(result)
 		}
+		out.Done()
 	}()
 	scan := bufio.NewScanner(input)
 	for scan.Scan() {
@@ -75,6 +76,7 @@ func (s *SubJS) Run() error {
 	close(urls)
 	w.Wait()
 	close(results)
+	out.Wait()
 	return nil
 }
 func (s *SubJS) fetch(urls <-chan string, results chan string) {

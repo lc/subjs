@@ -40,14 +40,14 @@ $ subjs -h
 ### From Source:
 
 ```
-$ go get -u -v github.com/virenpawar/subjs
+$ GO111MODULE=on go get -u -v github.com/virenpawar/subjs@vlatest
 ```
 
 ### From Binary:
 You can download the pre-built [binaries](https://github.com/virenpawar/subjs/releases/) from the releases page and then move them into your $PATH.
 
 ```
-$ tar xvf subjs_1.0.0_linux_amd64.tar.gz
+$ tar xvf subjs-1.0.2.tar.gz
 $ mv subjs /usr/bin/subjs
 ```
 

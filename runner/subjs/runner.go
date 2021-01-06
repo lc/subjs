@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -85,9 +86,7 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 		if err != nil {
 			continue
 		}
-		if s.opts.UserAgent == "" {
-			req.Header.Add("User-Agent", "subjs")
-		} else {
+		if s.opts.UserAgent != "" {
 			req.Header.Add("User-Agent", s.opts.UserAgent)
 		}
 		resp, err := s.client.Do(req)
@@ -121,6 +120,15 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 					results <- js
 				}
 			}
+			r := regexp.MustCompile(`[(\w./:)]*js`)
+			matches := r.FindAllString(s.Contents().Text(), -1)
+			for _, v := range matches {
+				if strings.HasPrefix(v, "//") {
+					results <- "https:"+v
+				} else if strings.HasPrefix(v, "/") {
+					results <- u.Scheme+"://"+u.Host+v
+				}
+			}
 		})
 		doc.Find("div").Each(func(index int, s *goquery.Selection) {
 			js, _ := s.Attr("data-script-src")
@@ -138,7 +146,6 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 					results <- js
 				}
 			}
-
 		})
 	}
 }

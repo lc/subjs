@@ -1,6 +1,6 @@
 # subjs
 [![License](https://img.shields.io/badge/license-MIT-_red.svg)](https://opensource.org/licenses/MIT)
-[![Go ReportCard](https://goreportcard.com/badge/github.com/lc/gau)](https://goreportcard.com/report/github.com/lc/subjs)
+[![Go ReportCard](https://goreportcard.com/badge/github.com/virenpawar/subjs)](https://goreportcard.com/report/github.com/virenpawar/subjs)
 
 subjs fetches javascript files from a list of URLS or subdomains. Analyzing javascript files can help you find undocumented endpoints, secrets, and more.
 
@@ -37,17 +37,26 @@ $ subjs -h
 ### From Source:
 
 ```
-$ GO111MODULE=on go get -u -v github.com/lc/subjs
+$ GO111MODULE=on go get -u -v github.com/virenpawar/subjs
 ```
 
-### From Binary
-You can download the pre-built [binaries](https://github.com/lc/subjs/releases/) from the releases page and then move them into your $PATH.
+### From Binary:
+You can download the pre-built [binaries](https://github.com/virenpawar/subjs/releases/) from the releases page and then move them into your $PATH.
 
 ```
 $ tar xvf subjs_1.0.0_linux_amd64.tar.gz
 $ mv subjs /usr/bin/subjs
 ```
 
-## Useful?
+## Changes by me
+- Removed unnecessary "subjs" user-agent which was by default.
+- Added regex to filter and find more js files. 
 
-<a href="http://buymeacoff.ee/cdl" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: 41px !important;width: 174px !important;box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;-webkit-box-shadow: 0px 3px 2px 0px rgba(190, 190, 190, 0.5) !important;" ></a>
+## Useful / Suggestions?
+
+- Feel free to ping me on [Twitter](https://twitter.com/VirenPawar_).
+
+---
+
+## Once again thanks to [Corben Leo](https://github.com/lc) for his efforts and his amazing tools.
+

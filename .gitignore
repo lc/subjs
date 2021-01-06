@@ -1,2 +1,6 @@
 dist
 .DS_Store
+
+*.exe
+subjs
+.idea

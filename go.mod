@@ -1,4 +1,4 @@
-module github.com/virenpawar/subjs
+module github.com/lc/subjs
 
 go 1.15
 

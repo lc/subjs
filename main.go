@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/virenpawar/subjs/runner/subjs"
+	"github.com/lc/subjs/runner/subjs"
 )
 
 func main() {

@@ -52,6 +52,30 @@ $ mv subjs /usr/bin/subjs
 - Removed unnecessary "subjs" user-agent which was by default.
 - Added regex to filter and find more js files. 
 
+## Output Difference
+- `lc's subjs`
+````
+$ time echo "https://www.paytm.com" | subjs
+https://d25w45cltkdr4r.cloudfront.net/config.min.js
+
+real    0m0.766s
+user    0m0.035s
+sys     0m0.021s
+````
+- `viren's subjs`
+````
+$ time echo "https://www.paytm.com" | subjs
+https://d25w45cltkdr4r.cloudfront.net/config.min.js
+https://assetscdn1.paytm.com/dexter/manifest.0cb98b7357bcd3ae89e8.js
+https://assetscdn1.paytm.com/dexter/vendor.a9be4500da9059f928cd.js
+https://assetscdn1.paytm.com/dexter/common.f2f7e37e1d39a790898a.js
+https://assetscdn1.paytm.com/dexter/main.c49180d08229690a61aa.js
+
+real    0m0.993s
+user    0m0.115s
+sys     0m0.053s
+````
+
 ## Useful / Suggestions?
 
 - Feel free to ping me on [Twitter](https://twitter.com/VirenPawar_).

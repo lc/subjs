@@ -40,7 +40,7 @@ $ subjs -h
 ### From Source:
 
 ```
-$ GO111MODULE=on go get -u -v github.com/virenpawar/subjs
+$ go get -u -v github.com/virenpawar/subjs
 ```
 
 ### From Binary:

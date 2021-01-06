@@ -9,6 +9,9 @@ It's recommended to pair this with [gau](https://github.com/lc/gau) and then [ht
 # Resources
 - [Usage](#usage)
 - [Installation](#installation)
+- [Changes By Me](##changes-by-me)
+- [Output Difference](##output-difference)
+
 
 ## Usage:
 Examples:
@@ -48,7 +51,7 @@ $ tar xvf subjs_1.0.0_linux_amd64.tar.gz
 $ mv subjs /usr/bin/subjs
 ```
 
-## Changes by me
+## Changes By Me
 - Removed unnecessary "subjs" user-agent which was by default.
 - Added regex to filter and find more js files. 
 
@@ -79,8 +82,6 @@ sys     0m0.053s
 ## Useful / Suggestions?
 
 - Feel free to ping me on [Twitter](https://twitter.com/VirenPawar_).
-
----
 
 ## Once again thanks to [Corben Leo](https://github.com/lc) for his efforts and his amazing tools.
 

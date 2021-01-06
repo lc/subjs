@@ -1,13 +1,7 @@
-github.com/PuerkitoBio/goquery v1.5.1 h1:PSPBGne8NIUWw+/7vFBV+kG2J/5MOjbzc7154OaKCSE=
-github.com/PuerkitoBio/goquery v1.5.1/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
 github.com/PuerkitoBio/goquery v1.6.0 h1:j7taAbelrdcsOlGeMenZxc2AWXD5fieT1/znArdnx94=
 github.com/PuerkitoBio/goquery v1.6.0/go.mod h1:GsLWisAFVj4WgDibEWF4pvYnkVQBpKBKeU+7zCJoLcc=
 github.com/andybalholm/cascadia v1.1.0 h1:BuuO6sSfQNFRu1LppgbD25Hr2vLYW25JvxHs5zzsLTo=
 github.com/andybalholm/cascadia v1.1.0/go.mod h1:GsXiBklL0woXo1j/WYWtSYYC4ouU9PqHO0sqidkEA4Y=
-github.com/lc/subjs v1.0.1 h1:Y4uRgdapZniPZ5pSNRc+A2LglKwCvmEQQqsdmOBl8tU=
-github.com/lc/subjs v1.0.1/go.mod h1:OvDHvjpMkG49kHx1QTlkUcNKtnQfd7xYuPhwNVsDXFk=
-github.com/virenpawar/subjs v1.0.1 h1:edjW9E4kovF9FEznpFpYFUp9aVnGqg/n7h39CENMAfo=
-github.com/virenpawar/subjs v1.0.1/go.mod h1:OvDHvjpMkG49kHx1QTlkUcNKtnQfd7xYuPhwNVsDXFk=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=
 golang.org/x/net v0.0.0-20180218175443-cbe0f9307d01/go.mod h1:mL1N/T3taQHkDXs73rZJwtUhF3w3ftmwwsq0BUmARs4=
 golang.org/x/net v0.0.0-20200202094626-16171245cfb2 h1:CCH4IOTTfewWjGOlSp+zGcjutRKlBEZQ6wTn8ozI/nI=

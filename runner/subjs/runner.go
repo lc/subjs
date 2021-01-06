@@ -122,11 +122,13 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 			}
 			r := regexp.MustCompile(`[(\w./:)]*js`)
 			matches := r.FindAllString(s.Contents().Text(), -1)
-			for _, v := range matches {
-				if strings.HasPrefix(v, "//") {
-					results <- "https:"+v
-				} else if strings.HasPrefix(v, "/") {
-					results <- u.Scheme+"://"+u.Host+v
+			for _, js := range matches {
+				if strings.HasPrefix(js, "//") {
+					js := fmt.Sprintf("%s:%s", u.Scheme, js)
+					results <- js
+				} else if strings.HasPrefix(js, "/") {
+					js := fmt.Sprintf("%s://%s%s", u.Scheme, u.Host, js)
+					results <- js
 				}
 			}
 		})

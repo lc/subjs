@@ -37,7 +37,7 @@ $ subjs -h
 ### From Source:
 
 ```
-$ GO111MODULE=on go get -u -v github.com/lc/subjs
+$ GO111MODULE=on go get -u -v github.com/lc/subjs@latest
 ```
 
 ### From Binary

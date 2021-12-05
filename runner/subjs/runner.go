@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 	"os"
+	"regexp"
 	"strings"
 	"sync"
 	"time"
@@ -14,7 +15,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-const version = `1.0.1`
+const version = `1.0.2`
 
 type SubJS struct {
 	client *http.Client
@@ -85,9 +86,7 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 		if err != nil {
 			continue
 		}
-		if s.opts.UserAgent == "" {
-			req.Header.Add("User-Agent", "subjs")
-		} else {
+		if s.opts.UserAgent != "" {
 			req.Header.Add("User-Agent", s.opts.UserAgent)
 		}
 		resp, err := s.client.Do(req)
@@ -121,6 +120,17 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 					results <- js
 				}
 			}
+			r := regexp.MustCompile(`[(\w./:)]*js`)
+			matches := r.FindAllString(s.Contents().Text(), -1)
+			for _, js := range matches {
+				if strings.HasPrefix(js, "//") {
+					js := fmt.Sprintf("%s:%s", u.Scheme, js)
+					results <- js
+				} else if strings.HasPrefix(js, "/") {
+					js := fmt.Sprintf("%s://%s%s", u.Scheme, u.Host, js)
+					results <- js
+				}
+			}
 		})
 		doc.Find("div").Each(func(index int, s *goquery.Selection) {
 			js, _ := s.Attr("data-script-src")
@@ -138,7 +148,6 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 					results <- js
 				}
 			}
-
 		})
 	}
 }

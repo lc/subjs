@@ -39,6 +39,10 @@ $ subjs -h
 ```
 $ GO111MODULE=on go get -u -v github.com/lc/subjs@latest
 ```
+### For latest go versions use:
+```
+$ go install -v github.com/lc/subjs@latest
+```
 
 ### From Binary
 You can download the pre-built [binaries](https://github.com/lc/subjs/releases/) from the releases page and then move them into your $PATH.

@@ -38,9 +38,6 @@ $ subjs -h
 
 ```
 $ GO111MODULE=on go get -u -v github.com/lc/subjs@latest
-```
-### For latest go versions use:
-```
 $ go install -v github.com/lc/subjs@latest
 ```
 

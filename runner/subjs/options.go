@@ -12,12 +12,14 @@ type Options struct {
 	Timeout   int
 	UserAgent string
 	JSONLines bool
+	Cookie string
 }
 
 func ParseOptions() *Options {
 	opts := &Options{}
 	flag.StringVar(&opts.InputFile, "i", "", "Input file containing URLS")
 	flag.StringVar(&opts.UserAgent, "ua", "", "User-Agent to send in requests")
+	flag.StringVar(&opts.Cookie, "cookie", "", "Cookie to send in requests")
 	flag.IntVar(&opts.Workers, "c", 10, "Number of concurrent workers")
 	flag.IntVar(&opts.Timeout, "t", 15, "Timeout (in seconds) for http client")
 	flag.BoolVar(&opts.JSONLines, "jsl", false, "JSON Lines output")

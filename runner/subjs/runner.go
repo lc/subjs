@@ -89,6 +89,9 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 		if s.opts.UserAgent != "" {
 			req.Header.Add("User-Agent", s.opts.UserAgent)
 		}
+		if s.opts.Cookie != "" {
+			req.Header.Add("Cookie", s.opts.Cookie)
+		}
 		resp, err := s.client.Do(req)
 		if err != nil {
 			continue

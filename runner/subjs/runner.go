@@ -15,7 +15,7 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-const version = `1.0.2`
+const version = `1.0.3`
 
 type SubJS struct {
 	client *http.Client
@@ -40,7 +40,7 @@ func (s *SubJS) Run() error {
 		// otherwise read from file
 		input, err = os.Open(s.opts.InputFile)
 		if err != nil {
-			return fmt.Errorf("Could not open input file: %s", err)
+			return fmt.Errorf("Could not open input file: %s\"}", err)
 		}
 		defer input.Close()
 	}
@@ -104,9 +104,23 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 			//log.Fatalf("error parsing url: %v", err)
 			return
 		}
-		doc.Find("script").Each(func(index int, s *goquery.Selection) {
-			js, _ := s.Attr("src")
-			if js != "" {
+		doc.Find("script").Each(func(index int, z *goquery.Selection) {
+			js, _ := z.Attr("src")
+			if js != "" && s.opts.JSONLines {
+				if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") {
+					js := fmt.Sprintf("{\"%s\": \"%s\"}", u, js)
+					results <- js
+				} else if strings.HasPrefix(js, "//") {
+					js := fmt.Sprintf("{\"%s\": \"%s:%s\"}", u, u.Scheme, js)
+					results <- js
+				} else if strings.HasPrefix(js, "/") {
+					js := fmt.Sprintf("{\"%s\": \"%s://%s%s\"}", u, u.Scheme, u.Host, js)
+					results <- js
+				} else {
+					js := fmt.Sprintf("{\"%s\": \"%s://%s/%s\"}", u, u.Scheme, u.Host, js)
+					results <- js
+				}
+			} else if js != "" {
 				if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") {
 					results <- js
 				} else if strings.HasPrefix(js, "//") {
@@ -120,21 +134,43 @@ func (s *SubJS) fetch(urls <-chan string, results chan string) {
 					results <- js
 				}
 			}
-			r := regexp.MustCompile(`[(\w./:)]*js`)
-			matches := r.FindAllString(s.Contents().Text(), -1)
+			r := regexp.MustCompile(`[(\w./:)]*\.js`)
+			matches := r.FindAllString(z.Contents().Text(), -1)
 			for _, js := range matches {
-				if strings.HasPrefix(js, "//") {
-					js := fmt.Sprintf("%s:%s", u.Scheme, js)
+				if s.opts.JSONLines {
+					if strings.HasPrefix(js, "//") {
+						js := fmt.Sprintf("{\"%s\": \"%s:%s\"}", u, u.Scheme, js)
+						results <- js
+					} else if strings.HasPrefix(js, "/") {
+						js := fmt.Sprintf("{\"%s\": \"%s://%s%s\"}", u, u.Scheme, u.Host, js)
+						results <- js
+					}
+				} else {
+					if strings.HasPrefix(js, "//") {
+						js := fmt.Sprintf("%s:%s", u.Scheme, js)
+						results <- js
+					} else if strings.HasPrefix(js, "/") {
+						js := fmt.Sprintf("%s://%s%s", u.Scheme, u.Host, js)
+						results <- js
+					}
+				}
+		}})
+		doc.Find("div").Each(func(index int, z *goquery.Selection) {
+			js, _ := z.Attr("data-script-src")
+			if js != "" && s.opts.JSONLines {
+				if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") {
+					results <- js
+				} else if strings.HasPrefix(js, "//") {
+					js := fmt.Sprintf("{\"%s\": \"%s:%s\"}", u, u.Scheme, js)
 					results <- js
 				} else if strings.HasPrefix(js, "/") {
-					js := fmt.Sprintf("%s://%s%s", u.Scheme, u.Host, js)
+					js := fmt.Sprintf("{\"%s\": \"%s://%s%s\"}", u, u.Scheme, u.Host, js)
+					results <- js
+				} else {
+					js := fmt.Sprintf("{\"%s\": \"%s://%s/%s\"}", u, u.Scheme, u.Host, js)
 					results <- js
 				}
-			}
-		})
-		doc.Find("div").Each(func(index int, s *goquery.Selection) {
-			js, _ := s.Attr("data-script-src")
-			if js != "" {
+			} else if js != "" {
 				if strings.HasPrefix(js, "http://") || strings.HasPrefix(js, "https://") {
 					results <- js
 				} else if strings.HasPrefix(js, "//") {

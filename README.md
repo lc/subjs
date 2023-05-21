@@ -31,7 +31,7 @@ $ subjs -h
 | `-t` | Timeout (in seconds) for http client (default 15) | `subjs -t 20` |
 | `-ua` | User-Agent to send in requests | `subjs -ua "Chrome..."` |
 | `-version` | Show version number | `subjs -version"` |
-
+| `-jsl` | JSON Lines output (contains source url as well) | `subjs -jsl`|
 
 ## Installation
 ### From Source:

@@ -31,13 +31,14 @@ $ subjs -h
 | `-t` | Timeout (in seconds) for http client (default 15) | `subjs -t 20` |
 | `-ua` | User-Agent to send in requests | `subjs -ua "Chrome..."` |
 | `-version` | Show version number | `subjs -version"` |
-
+| `-jsl` | JSON Lines output (contains source url as well) | `subjs -jsl`|
+| `-cookie` | Cookie to send in requests | `subjs -cookie "JSESSIONID...` |
 
 ## Installation
 ### From Source:
 
 ```
-$ GO111MODULE=on go get -u -v github.com/lc/subjs@latest
+$ GO111MODULE=on go install -v github.com/lc/subjs@latest
 ```
 
 ### From Binary
